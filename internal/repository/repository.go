@@ -3,7 +3,7 @@ package repository
 import "wb-vulnhub/internal/entity"
 
 type ProductRepository interface {
-	GetByIdInvulnerable(id string) (*entity.Product, error)
+	GetByIdInvulnerable(id int64) (*entity.Product, error)
 }
 
 type NoteRepository interface {

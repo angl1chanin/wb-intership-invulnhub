@@ -62,14 +62,14 @@ func New(db *sql.DB) (*productRepository, error) {
 	return &productRepository{db: db}, nil
 }
 
-func (r *productRepository) GetByIdInvulnerable(id string) (*entity.Product, error) {
+func (r *productRepository) GetByIdInvulnerable(id int64) (*entity.Product, error) {
 	const op = "invulnerable.internal.repository.product_repository.GetByIdVulnerable"
 
-	stmt := `SELECT id, description FROM Products WHERE id = ` + id
+	stmt := `SELECT id, description FROM Products WHERE id = ?`
 
 	product := &entity.Product{}
 
-	err := r.db.QueryRow(stmt).Scan(&product.ID, &product.Name)
+	err := r.db.QueryRow(stmt, id).Scan(&product.ID, &product.Name)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, fmt.Errorf("%s: %w", "No rows returned", err)

@@ -72,12 +72,18 @@ func (h *handlers) SQLi(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		const op = "invulnerable.internal.handlers.handlers.SQLi.POST"
 
+		var item *entity.Product
+
 		r.ParseForm()
 		id := r.FormValue("id")
-
-		item, err := h.productRepo.GetByIdInvulnerable(id)
+		intID, err := strconv.ParseInt(id, 10, 64)
 		if err != nil {
 			fmt.Errorf("%s: %w", op, err)
+		} else {
+			item, err = h.productRepo.GetByIdInvulnerable(intID)
+			if err != nil {
+				fmt.Errorf("%s: %w", op, err)
+			}
 		}
 
 		if item == nil {
