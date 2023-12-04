@@ -4,10 +4,13 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/gorilla/sessions"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/steambap/captcha"
 	"html"
 	"html/template"
 	"net/http"
+	"os"
 	"os/exec"
 	"strconv"
 	"wb-vulnhub/internal/entity"
@@ -18,6 +21,12 @@ type handlers struct {
 	productRepo repository.ProductRepository
 	noteRepo    repository.NoteRepository
 }
+
+var (
+	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	key   = []byte("HFUIHIUFWHQNKJN1024*@&$*(N!DH!@DH")
+	store = sessions.NewCookieStore(key)
+)
 
 func New(productRepo repository.ProductRepository, noteRepo repository.NoteRepository) *handlers {
 	return &handlers{
@@ -249,18 +258,32 @@ func (h *handlers) BruteForce(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodPost {
 		var correctPassword = "password123"
+		session, _ := store.Get(r, "session")
 
 		r.ParseForm()
 		password := r.Form.Get("password")
+		capText := r.Form.Get("captcha")
 
 		var message = ""
 		var loggedIn bool
-		if password == correctPassword {
-			message = "Login successful"
-			loggedIn = true
-		} else {
-			message = "Login failed"
+
+		correctCaptcha, ok := session.Values["captcha"].(string)
+		if !ok {
+			fmt.Println(ok)
+			return
+		}
+
+		if capText != correctCaptcha {
+			message = "Captcha is incorrect"
 			loggedIn = false
+		} else {
+			if password == correctPassword {
+				message = "Login successful"
+				loggedIn = true
+			} else {
+				message = "Login failed"
+				loggedIn = false
+			}
 		}
 
 		content := &struct {
@@ -271,6 +294,25 @@ func (h *handlers) BruteForce(w http.ResponseWriter, r *http.Request) {
 			LoggedIn: loggedIn,
 		}
 
+		// this code the same that in the get method, it is just rewrite captcha in session and image
+		// i really like DRY pattern, but not in this case :)
+
+		// create a captcha of 150x50px
+		data, _ := captcha.New(150, 50)
+
+		session.Values["captcha"] = data.Text
+		session.Save(r, w)
+
+		// Create a file
+		f, err := os.Create("./web/ui/static/captcha.png")
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+
+		// Write the image to the file
+		data.WriteImage(f)
+
 		err = tmpl.Execute(w, content)
 		if err != nil {
 			panic(err)
@@ -279,6 +321,23 @@ func (h *handlers) BruteForce(w http.ResponseWriter, r *http.Request) {
 
 	// get request
 	if r.Method == http.MethodGet {
+		session, _ := store.New(r, "session")
+		// create a captcha of 150x50px
+		data, _ := captcha.New(150, 50)
+
+		session.Values["captcha"] = data.Text
+		session.Save(r, w)
+
+		// Create a file
+		f, err := os.Create("./web/ui/static/captcha.png")
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+
+		// Write the image to the file
+		data.WriteImage(f)
+
 		err = tmpl.Execute(w, nil)
 		if err != nil {
 			panic(err)
