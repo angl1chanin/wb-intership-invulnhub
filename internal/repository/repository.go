@@ -7,6 +7,10 @@ type ProductRepository interface {
 }
 
 type NoteRepository interface {
-	GetById(id string) (*entity.Note, error)
+	GetById(id, user string) (*entity.Note, error)
 	GetLimited() ([]entity.Note, error)
+	IsOwner(id int, user string) (bool, error)
+	IsValidPassword(user, password string) (bool, error)
+	IsUserExists(user string) (bool, error)
+	GetByUser(user string) ([]entity.Note, error)
 }

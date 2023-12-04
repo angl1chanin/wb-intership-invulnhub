@@ -141,8 +141,9 @@ func (h *handlers) IDOR(w http.ResponseWriter, r *http.Request) {
 	var notes []entity.Note
 
 	id := r.URL.Query().Get("id")
+	user := r.URL.Query().Get("user")
 	if len(id) > 0 {
-		note, err := h.noteRepo.GetById(id)
+		note, err := h.noteRepo.GetById(id, user)
 		if err != nil {
 			if errors.Is(err, sql.ErrNoRows) {
 				w.WriteHeader(http.StatusNotFound)
@@ -152,7 +153,7 @@ func (h *handlers) IDOR(w http.ResponseWriter, r *http.Request) {
 		}
 		notes = append(notes, *note)
 	} else {
-		notes, err = h.noteRepo.GetLimited()
+		notes, err = h.noteRepo.GetByUser(user)
 		if err != nil {
 			fmt.Errorf("%s: %w", op, err)
 		}

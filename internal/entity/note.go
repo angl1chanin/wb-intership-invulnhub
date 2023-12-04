@@ -5,4 +5,6 @@ type Note struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Status      string `json:"status"`
+	User        string
+	Password    string
 }

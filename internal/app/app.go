@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"wb-vulnhub/internal/handlers"
 	"wb-vulnhub/internal/logger"
+	"wb-vulnhub/internal/middlewares"
 	"wb-vulnhub/internal/repository/note"
 	"wb-vulnhub/internal/repository/product"
 )
@@ -42,7 +43,7 @@ func Run() {
 	mux.HandleFunc("/", h.Home)
 	mux.HandleFunc("/xss", h.XSS)
 	mux.HandleFunc("/sqli", h.SQLi)
-	mux.HandleFunc("/idor", h.IDOR)
+	mux.HandleFunc("/idor", middlewares.CheckOwner(note, http.HandlerFunc(h.IDOR)))
 	mux.HandleFunc("/command-inj", h.CommandInjection)
 	mux.HandleFunc("/path-traversal", h.PathTraversal)
 	mux.HandleFunc("/brute-force", h.BruteForce)
