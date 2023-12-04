@@ -1,0 +1,16 @@
+{{ template "base" . }}
+
+{{ define "title" }} Path Traversal {{ end }}
+
+{{ define "main" }}
+<h4>Path Traversal</h4>
+<div>
+    <ul class="list-group">
+        <a class="list-group-item list-group-item-action" href="/path-traversal?file=./web/ui/static/capi1.jpeg">Картинка 1</a>
+        <a class="list-group-item list-group-item-action" href="/path-traversal?file=./web/ui/static/capi2.jpeg">Картинка 2</a>
+    </ul>
+    {{ if .Message }}
+        <strong>{{ .Message }}</strong>
+    {{ end }}
+</div>
+{{ end }}

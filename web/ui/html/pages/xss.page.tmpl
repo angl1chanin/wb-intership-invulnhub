@@ -1,0 +1,7 @@
+{{ template "base" . }}
+
+{{ define "title" }} XSS {{ end }}
+
+{{ define "main" }}
+<p>Your username: {{ .Username }}</p>
+{{ end }}

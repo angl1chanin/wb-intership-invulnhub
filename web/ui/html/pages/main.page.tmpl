@@ -1,0 +1,60 @@
+{{ template "base" . }}
+
+{{ define "title" }} Главная {{ end }}
+
+{{ define "main" }}
+<div>
+    <div class="row justify-content-md-center mb-4">
+        <div class="col-md-auto">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">XSS Reflected</h5>
+                    <a href="/xss" class="card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">SQLi</h5>
+                    <a href="/sqli" class="card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">IDOR</h5>
+                    <a href="/idor" class="card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">OS Command Injection</h5>
+                    <a href="/command-inj" class="card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Path Traversal</h5>
+                    <a href="/path-traversal" class="card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-auto">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Brute Force</h5>
+                    <a href="/brute-force" class="card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

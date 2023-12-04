@@ -1,0 +1,25 @@
+{{ template "base" . }}
+
+{{ define "title" }} IDOR {{ end }}
+
+{{ define "main" }}
+<h4 class="mb-4">IDOR</h4>
+{{ if gt .Id 0 }}
+<div class="mb-4">
+    <button class="btn btn-dark">
+        <a class="link-light" href="/idor">Назад</a>
+    </button>
+</div>
+{{ end }}
+<div>
+    <p>Try to find secret id</p>
+    <ul class="list-group">
+        {{ range .Notes }}
+            <li class="list-group-item">
+                <a class="list-group-item list-group-item-action" href="/idor?id={{.ID}}">{{.Title}}</a>
+                <code>{{.Description}}</code>
+            </li>
+        {{ end }}
+    </ul>
+</div>
+{{ end }}

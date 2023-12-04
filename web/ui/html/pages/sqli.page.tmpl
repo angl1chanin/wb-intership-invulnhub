@@ -1,0 +1,46 @@
+{{ template "base" . }}
+
+{{ define "title" }} SQLi {{ end }}
+
+{{ define "main" }}
+<h4>SQLi</h4>
+<form class="d-flex align-items-center g-3" action="" method="post">
+    <div class="col-auto">
+        <input type="text" name="id" class="form-control" id="input" placeholder="id">
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Выполнить</button>
+    </div>
+</form>
+<p>Query: "{{ .Query }}"</p>
+<p>Get flag from table <code>flags</code></p>
+<div>
+    {{ if .Item }}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ .Item.ID }}</td>
+                    <td>{{ .Item.Name }}</td>
+                    <td>{{ .Item.Description }}</td>
+                    <td>{{ .Item.Price }}</td>
+                </tr>
+            </tbody>
+        </table>
+    {{ else }}
+        <p>Make query</p>
+    {{ end }}
+</div>
+<div>
+    {{ if .Err }}
+        <p>Error: {{ .Err }}</p>
+    {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,23 @@
+{{ template "base" . }}
+
+{{ define "title" }} Brute Force {{ end }}
+
+{{ define "main" }}
+<h4 class="mb-4">Brute Force</h4>
+<div>
+    <form action="" method="post">
+        <div class="col-auto mb-4">
+            <input type="text" name="password" class="form-control" id="input" placeholder="Password">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </div>
+    </form>
+    {{ if .Message }}
+        <p>{{ .Message }}</p>
+    {{ end }}
+    {{ if .LoggedIn }}
+        <h2 style="color: red">Correct password</h2>
+    {{ end }}
+</div>
+{{ end }}
