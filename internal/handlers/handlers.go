@@ -7,7 +7,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"html"
 	"html/template"
-	"io/ioutil"
 	"net/http"
 	"os/exec"
 	"strconv"
@@ -197,7 +196,7 @@ func (h *handlers) CommandInjection(w http.ResponseWriter, r *http.Request) {
 
 	if len(ip) != 0 {
 		command += ip
-		cmd := exec.Command("sh", "-c", command)
+		cmd := exec.Command("ping", "-c", "1", ip)
 		out, err = cmd.Output()
 		if err != nil {
 			fmt.Printf("%s: %w", op, err)
@@ -231,25 +230,7 @@ func (h *handlers) PathTraversal(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	message := ""
-	data := []byte{}
-
-	file := r.URL.Query().Get("file")
-	if len(file) > 0 {
-		data, err = ioutil.ReadFile(file)
-		if err != nil {
-			message = err.Error()
-		}
-		w.Write(data)
-	}
-
-	content := &struct {
-		Message string
-	}{
-		Message: message,
-	}
-
-	err = tmpl.Execute(w, content)
+	err = tmpl.Execute(w, nil)
 	if err != nil {
 		panic(err)
 	}
