@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
+	"html"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -50,7 +51,7 @@ func (h *handlers) XSS(w http.ResponseWriter, r *http.Request) {
 	if len(username) == 0 {
 		tmpl += "<p>Send get parameter 'username'</p>"
 	} else {
-		tmpl += "<p>Your username: " + username + "</p>"
+		tmpl += "<p>Your username: " + html.EscapeString(username) + "</p>"
 	}
 
 	w.Write([]byte(tmpl))
