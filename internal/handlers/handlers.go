@@ -70,12 +70,12 @@ func (h *handlers) SQLi(w http.ResponseWriter, r *http.Request) {
 
 	// POST method
 	if r.Method == http.MethodPost {
-		const op = "vulnerable.internal.handlers.handlers.SQLi.POST"
+		const op = "invulnerable.internal.handlers.handlers.SQLi.POST"
 
 		r.ParseForm()
 		id := r.FormValue("id")
 
-		item, err := h.productRepo.GetByIdVulnerable(id)
+		item, err := h.productRepo.GetByIdInvulnerable(id)
 		if err != nil {
 			fmt.Errorf("%s: %w", op, err)
 		}
@@ -104,7 +104,7 @@ func (h *handlers) SQLi(w http.ResponseWriter, r *http.Request) {
 
 	// GET method
 	if r.Method == http.MethodGet {
-		const op = "vulnerable.internal.handlers.handlers.SQLi.GET"
+		const op = "invulnerable.internal.handlers.handlers.SQLi.GET"
 		content := &struct {
 			Query string
 		}{
@@ -119,7 +119,7 @@ func (h *handlers) SQLi(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handlers) IDOR(w http.ResponseWriter, r *http.Request) {
-	const op = "vulnerable.internal.handlers.handlers.IDOR"
+	const op = "invulnerable.internal.handlers.handlers.IDOR"
 
 	files := []string{
 		"./web/ui/html/base.layout.tmpl",
@@ -171,7 +171,7 @@ func (h *handlers) IDOR(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handlers) CommandInjection(w http.ResponseWriter, r *http.Request) {
-	const op = "vulnerable.internal.handlers.handlers.CommandInjection"
+	const op = "invulnerable.internal.handlers.handlers.CommandInjection"
 
 	files := []string{
 		"./web/ui/html/base.layout.tmpl",

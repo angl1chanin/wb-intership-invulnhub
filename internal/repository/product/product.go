@@ -16,7 +16,7 @@ type productRepository struct {
 var _ repository.ProductRepository = (*productRepository)(nil)
 
 func New(db *sql.DB) (*productRepository, error) {
-	const op = "vulnerable.internal.repository.product_repository.NewProductRepository"
+	const op = "invulnerable.internal.repository.product_repository.NewProductRepository"
 
 	queries := []string{
 		`CREATE TABLE Products (
@@ -62,8 +62,8 @@ func New(db *sql.DB) (*productRepository, error) {
 	return &productRepository{db: db}, nil
 }
 
-func (r *productRepository) GetByIdVulnerable(id string) (*entity.Product, error) {
-	const op = "vulnerable.internal.repository.product_repository.GetByIdVulnerable"
+func (r *productRepository) GetByIdInvulnerable(id string) (*entity.Product, error) {
+	const op = "invulnerable.internal.repository.product_repository.GetByIdVulnerable"
 
 	stmt := `SELECT id, description FROM Products WHERE id = ` + id
 

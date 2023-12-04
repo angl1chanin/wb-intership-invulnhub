@@ -15,7 +15,7 @@ type noteRepository struct {
 var _ repository.NoteRepository = (*noteRepository)(nil)
 
 func New(db *sql.DB) (*noteRepository, error) {
-	const op = "vulnerable.internal.repository.note.New"
+	const op = "invulnerable.internal.repository.note.New"
 
 	queries := []string{
 		`
@@ -47,7 +47,7 @@ func New(db *sql.DB) (*noteRepository, error) {
 }
 
 func (r *noteRepository) GetById(id string) (*entity.Note, error) {
-	const op = "vulnerable.internal.repository.note.Create"
+	const op = "invulnerable.internal.repository.note.Create"
 
 	note := &entity.Note{}
 
@@ -60,7 +60,7 @@ func (r *noteRepository) GetById(id string) (*entity.Note, error) {
 }
 
 func (r *noteRepository) GetLimited() ([]entity.Note, error) {
-	const op = "vulnerable.internal.repository.note.GetLimited"
+	const op = "invulnerable.internal.repository.note.GetLimited"
 
 	rows, err := r.db.Query(`SELECT * FROM notes LIMIT 3 OFFSET 0`)
 	if err != nil {
