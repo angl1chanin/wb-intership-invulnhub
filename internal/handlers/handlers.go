@@ -23,7 +23,7 @@ type handlers struct {
 }
 
 var (
-	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	// i know that contain secrets into code bad practice
 	key   = []byte("HFUIHIUFWHQNKJN1024*@&$*(N!DH!@DH")
 	store = sessions.NewCookieStore(key)
 )
