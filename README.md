@@ -4,8 +4,9 @@
 ```
 git clone https://github.com/angl1chanin/wb-intership-invulnhub.git
 cd wb-intership-invulnhub
-go get ./...
-go run ./cmd/app
+go mod tidy
+go build ./cmd/app
+./app
 ```
 ##### Приложение запущено, переходим по <code>localhost:3333</code>
 
